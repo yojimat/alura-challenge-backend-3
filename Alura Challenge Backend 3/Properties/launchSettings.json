@@ -3,18 +3,18 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:55949",
-      "sslPort": 44384
+      "applicationUrl": "http://localhost:17826",
+      "sslPort": 44325
     }
   },
   "profiles": {
-    "Alura Challenge Backend 3": {
+    "Alura_Challenge_Backend_3": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:7255;http://localhost:5255",
+      "applicationUrl": "https://localhost:7078;http://localhost:5078",
       "dotnetRunMessages": true
     },
     "IIS Express": {

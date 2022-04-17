@@ -4,8 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-Alura_Challenge_Backend_3-5897A7A2-E2CA-4721-8B6C-CA7A37D3509A</UserSecretsId>
-    <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
+    <UserSecretsId>aspnet-Alura_Challenge_Backend_3-23DFF724-397D-4BD5-BCA6-198F4BD8085F</UserSecretsId>
     <RootNamespace>Alura_Challenge_Backend_3</RootNamespace>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
