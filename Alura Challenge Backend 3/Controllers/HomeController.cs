@@ -29,10 +29,8 @@ namespace Alura_Challenge_Backend_3.Controllers
         {
             if (ModelState.IsValid)
             {
-                string? fileName = fileUpload.FormFile?.FileName;
-                long? fileLength = fileUpload.FormFile?.Length;
-
-                Console.WriteLine($"The name of the file is {fileName} and its length is: {FileSizeFormatter.FormatSize(fileLength ?? 0)}");
+                fileUpload.ReadFileNameAndLength();
+                fileUpload.ReadCSVFile();
             }
 
             return RedirectToAction(nameof(Index));
