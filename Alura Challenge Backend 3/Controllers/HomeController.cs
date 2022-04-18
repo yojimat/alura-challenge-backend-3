@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.WebUtilities;
+using Alura_Challenge_Backend_3.Helpers;
 
 namespace Alura_Challenge_Backend_3.Controllers
 {
@@ -20,9 +23,19 @@ namespace Alura_Challenge_Backend_3.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        [Route(nameof(UploadFile))]
+        public IActionResult UploadFile(FileUpload fileUpload)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                string? fileName = fileUpload.FormFile?.FileName;
+                long? fileLength = fileUpload.FormFile?.Length;
+
+                Console.WriteLine($"The name of the file is {fileName} and its length is: {FileSizeFormatter.FormatSize(fileLength ?? 0)}");
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         [AllowAnonymous]

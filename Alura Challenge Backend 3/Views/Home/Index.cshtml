@@ -1,8 +1,22 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model FileUpload;
+@{
+    ViewData["Title"] = "Importar";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Importar transações</h1>
+    <br />
+    <form asp-action="UploadFile" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <label asp-for="FormFile" class="control-label">Selecione o arquivo para realizar o upload</label>
+            <input asp-for="FormFile" type="file" class="form-control">
+            <p><span asp-validation-for="FormFile" class="text-danger"></span></p>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Importar" />
+    </form>
 </div>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
+
