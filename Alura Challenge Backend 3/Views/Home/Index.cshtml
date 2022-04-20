@@ -9,7 +9,7 @@
     <form asp-action="UploadFile" enctype="multipart/form-data" method="post">
         <div class="form-group">
             <label asp-for="FormFile" class="control-label">Selecione o arquivo para realizar o upload</label>
-            <input asp-for="FormFile" type="file" class="form-control">
+            <input asp-for="FormFile" type="file" class="form-control"  accept=".csv">
             <p><span asp-validation-for="FormFile" class="text-danger"></span></p>
         </div>
         <input class="btn btn-primary" type="submit" value="Importar" />

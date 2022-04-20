@@ -1,14 +1,15 @@
 ﻿using Alura_Challenge_Backend_3.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Alura_Challenge_Backend_3_Test.ModelStubs
 {
-    internal class TransactionStubs
+    internal static class TransactionStubs
     {
-        private const string dateStringFormat = "yyyy-mm-ddThh:MM:ss";
+        private const string dateStringFormat = "yyyy-MM-ddThh:mm:ss";
 
-        public readonly IReadOnlyList<Transaction> TransactionsStubs = new List<Transaction> {
+        public static readonly IReadOnlyList<Transaction> TransactionsListStub = new List<Transaction> {
             new() {
                 OriginBank = "BANCO DO BRASIL",
                 OriginAgency = 0001,
@@ -19,7 +20,7 @@ namespace Alura_Challenge_Backend_3_Test.ModelStubs
                 DestinationAccount = "00001-1",
 
                 Value = 8000,
-                DateTime = DateTime.ParseExact("2022-01-01T07:30:00", dateStringFormat, null)
+                DateTime = DateTime.ParseExact("2022-01-01T07:30:00", dateStringFormat, CultureInfo.InvariantCulture)
             }
         };
     }

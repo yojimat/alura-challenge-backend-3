@@ -22,7 +22,22 @@ namespace Alura_Challenge_Backend_3.Models
 
         public IEnumerable<Transaction> ReadCSVFile()
         {
-            throw new NotImplementedException();
+            if (FormFile == null || FormFile.ContentType != "text/csv") return Enumerable.Empty<Transaction>();
+            var transactions = new List<Transaction>();
+
+            using var stream = FormFile.OpenReadStream();
+            using var reader = new StreamReader(stream);
+
+            string? line = reader.ReadLine();
+
+            while (line != null)
+            {
+                // Implement the serialization of the line to a Transaction object
+                Console.WriteLine(line);
+                line = reader.ReadLine();
+            }
+
+            return transactions;
         }
     }
 }
