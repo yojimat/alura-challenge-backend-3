@@ -1,10 +1,10 @@
-﻿using Alura_Challenge_Backend_3.Models;
+﻿using Alura_Challenge_Backend_3.Contexts;
+using Alura_Challenge_Backend_3.Data;
+using Alura_Challenge_Backend_3.Data.Interfaces;
+using Alura_Challenge_Backend_3.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.WebUtilities;
-using Alura_Challenge_Backend_3.Helpers;
 
 namespace Alura_Challenge_Backend_3.Controllers
 {
@@ -12,10 +12,12 @@ namespace Alura_Challenge_Backend_3.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ITransactionService _transactionService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, TransactionContext context)
         {
             _logger = logger;
+            _transactionService = new TransactionService(context);
         }
 
         public IActionResult Index()
@@ -30,7 +32,8 @@ namespace Alura_Challenge_Backend_3.Controllers
             if (ModelState.IsValid)
             {
                 fileUpload.ReadFileNameAndLength();
-                fileUpload.ReadCSVFile();
+                var transactionsList = fileUpload.ReadCSVFile();
+                _transactionService.SaveTransactions(transactionsList);
             }
 
             return RedirectToAction(nameof(Index));
