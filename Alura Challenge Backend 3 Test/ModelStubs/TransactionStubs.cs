@@ -7,7 +7,7 @@ namespace Alura_Challenge_Backend_3_Test.ModelStubs
 {
     internal static class TransactionStubs
     {
-        private const string dateStringFormat = "yyyy-MM-ddThh:mm:ss";
+        private const string dateStringFormat = "yyyy-MM-ddTHH:mm:ss";
 
         public static readonly IReadOnlyList<Transaction> TransactionsListStub = new List<Transaction> {
             new() {

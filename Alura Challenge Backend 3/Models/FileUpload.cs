@@ -34,10 +34,13 @@ namespace Alura_Challenge_Backend_3.Models
             {
                 // Implement the serialization of the line to a Transaction object
                 Console.WriteLine(line);
+                transactions.Add(Transaction.CreateTransactionByCsvLine(line));
                 line = reader.ReadLine();
             }
 
             return transactions;
         }
+
+
     }
 }

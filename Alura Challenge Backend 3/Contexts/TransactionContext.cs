@@ -5,7 +5,7 @@ namespace Alura_Challenge_Backend_3.Contexts
 {
     public class TransactionContext : DbContext
     {
-        public DbSet<Transaction>? Transactions { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         public TransactionContext(DbContextOptions<TransactionContext> options) : base(options)
         {

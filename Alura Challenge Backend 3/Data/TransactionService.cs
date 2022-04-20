@@ -16,7 +16,8 @@ namespace Alura_Challenge_Backend_3.Data
         // Implement logger and a bool function to show that was sucessfull with try catch
         public void SaveTransactions(IEnumerable<Transaction> transactions)
         {
-            _transactionContext.AddRange(transactions);
+            _transactionContext.Transactions.AddRange(transactions);
+            _transactionContext.SaveChanges();
         }
     }
 }
