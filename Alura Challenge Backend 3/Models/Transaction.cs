@@ -8,6 +8,7 @@ namespace Alura_Challenge_Backend_3.Models
     {
         private const string dateStringFormat = "yyyy-MM-ddTHH:mm:ss";
 
+        // Should separate the digit from Account prop and transform them in int, eliminating the possibilities of some bugs of invalid entries.
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string OriginBank { get; set; } = string.Empty;

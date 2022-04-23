@@ -1,6 +1,8 @@
 ﻿using Alura_Challenge_Backend_3.Contexts;
+using Alura_Challenge_Backend_3.CustomExceptions;
 using Alura_Challenge_Backend_3.Data;
 using Alura_Challenge_Backend_3.Data.Interfaces;
+using Alura_Challenge_Backend_3.Helpers;
 using Alura_Challenge_Backend_3.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,9 +35,20 @@ namespace Alura_Challenge_Backend_3.Controllers
             {
                 fileUpload.ReadFileNameAndLength();
                 var transactionsList = fileUpload.ReadCSVFile();
-                // transactionsList = TransactionsValidation.Validate(transactionsList, fileUpload);
-                int savedItems = _transactionService.SaveTransactions(transactionsList);
-                fileUpload.SetResultMessage(savedItems, transactionsList.Count());
+                int originalListLength = transactionsList.Count();
+
+                try
+                {
+                    var transactionsValidation = new TransactionsValidation(_transactionService);
+                    var validatedTransactions = transactionsValidation.Validate(transactionsList);
+
+                    int savedItems = _transactionService.SaveTransactions(validatedTransactions);
+                    fileUpload.SetResultMessage(savedItems, originalListLength);
+                }
+                catch (TransactionsListAlreadyExistsException)
+                {
+                    fileUpload.SetResultMessage("As transações desse dia já foram inseridas.");
+                }
             }
 
             return View(nameof(Index), fileUpload);

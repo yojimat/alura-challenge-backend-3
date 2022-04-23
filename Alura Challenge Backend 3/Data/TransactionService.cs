@@ -33,5 +33,11 @@ namespace Alura_Challenge_Backend_3.Data
                 return 0;
             }
         }
+
+        public bool VerifyIfTransactionExistByDate(DateTime dateOfTransaction)
+        {
+            bool? found = _transactionContext.Transactions?.Any(t => t.DateTime.CompareTo(dateOfTransaction) == 0);
+            return found is not null && found.Value;
+        }
     }
 }

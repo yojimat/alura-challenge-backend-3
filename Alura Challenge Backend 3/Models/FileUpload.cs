@@ -10,7 +10,7 @@ namespace Alura_Challenge_Backend_3.Models
 
         [Required(ErrorMessage = "Nenhum arquivo foi selecionado")]
         public IFormFile? FormFile { get; set; }
-        public string ResultMessage { get => resultMessage; set { } }
+        public string ResultMessage { get => resultMessage; }
 
         public string ReadFileNameAndLength()
         {
@@ -35,7 +35,15 @@ namespace Alura_Challenge_Backend_3.Models
 
             while (line != null)
             {
-                transactions.Add(Transaction.CreateTransactionByCsvLine(line));
+                try
+                {
+                    var transaction = Transaction.CreateTransactionByCsvLine(line);
+                    transactions.Add(transaction);
+                }
+                catch (Exception e) when (e is ArgumentNullException || e is FormatException)
+                {
+                    // Add prop to counter the lines that were not converted.
+                }
                 line = reader.ReadLine();
             }
 
@@ -44,17 +52,19 @@ namespace Alura_Challenge_Backend_3.Models
 
         // In the case that the prop ResultMessage get more complex.
         // This ResultMessage prop could be a new class responsible to define output messages. Removing these if's and making more managable to deal with.
-        public void SetResultMessage(int savedItems, int originalLengthOfList)
+        public void SetResultMessage(int savedItems, int originalListLength)
         {
             if (savedItems > 0)
             {
-                resultMessage = $"{savedItems} itens da lista foram salvos.";
-                if (originalLengthOfList > savedItems) resultMessage += $"{originalLengthOfList - savedItems} itens não foram salvos.";
+                resultMessage = $"{savedItems} item(s) da lista foram salvos.";
+                if (originalListLength > savedItems) resultMessage += $"{originalListLength - savedItems} item(s) não foi(ram) salvo(s).";
             }
             else
             {
                 resultMessage = "Nenhum item foi salvo. Verifique a lista enviada.";
             };
         }
+
+        public void SetResultMessage(string message) => resultMessage = message;
     }
 }
