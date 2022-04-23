@@ -1,5 +1,5 @@
 ﻿using Alura_Challenge_Backend_3.Helpers;
-using Alura_Challenge_Backend_3.Interfaces;
+using Alura_Challenge_Backend_3.Models.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace Alura_Challenge_Backend_3.Models
@@ -32,8 +32,6 @@ namespace Alura_Challenge_Backend_3.Models
 
             while (line != null)
             {
-                // Implement the serialization of the line to a Transaction object
-                Console.WriteLine(line);
                 transactions.Add(Transaction.CreateTransactionByCsvLine(line));
                 line = reader.ReadLine();
             }

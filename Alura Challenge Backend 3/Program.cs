@@ -1,4 +1,5 @@
 using Alura_Challenge_Backend_3.Contexts;
+using Alura_Challenge_Backend_3.Helpers;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -45,15 +46,7 @@ else
 {
     app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
-}
-
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    var context = services.GetRequiredService<TransactionContext>();
-    context.Database.EnsureCreated();
-    // DbInitializer.Initialize(context);
+    DbManagement.CleanDatabaseForTest(app);
 }
 
 app.UseHttpsRedirection();

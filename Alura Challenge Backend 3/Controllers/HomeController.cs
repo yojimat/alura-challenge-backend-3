@@ -17,7 +17,7 @@ namespace Alura_Challenge_Backend_3.Controllers
         public HomeController(ILogger<HomeController> logger, TransactionContext context)
         {
             _logger = logger;
-            _transactionService = new TransactionService(context);
+            _transactionService = new TransactionService(context, logger);
         }
 
         public IActionResult Index()
