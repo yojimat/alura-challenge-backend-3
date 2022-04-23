@@ -33,10 +33,12 @@ namespace Alura_Challenge_Backend_3.Controllers
             {
                 fileUpload.ReadFileNameAndLength();
                 var transactionsList = fileUpload.ReadCSVFile();
-                _transactionService.SaveTransactions(transactionsList);
+                // transactionsList = TransactionsValidation.Validate(transactionsList, fileUpload);
+                int savedItems = _transactionService.SaveTransactions(transactionsList);
+                fileUpload.SetResultMessage(savedItems, transactionsList.Count());
             }
 
-            return RedirectToAction(nameof(Index));
+            return View(nameof(Index), fileUpload);
         }
 
         [AllowAnonymous]

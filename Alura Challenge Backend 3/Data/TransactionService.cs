@@ -15,22 +15,23 @@ namespace Alura_Challenge_Backend_3.Data
             _logger = logger;
         }
 
-        // Implement logger and a bool function to show that was sucessfull with try catch
-        public bool SaveTransactions(IEnumerable<Transaction> transactions)
+        public int SaveTransactions(IEnumerable<Transaction> transactions)
         {
+            using var transaction = _transactionContext.Database.BeginTransaction();
             try
             {
                 _transactionContext.Transactions?.AddRange(transactions);
-                int savedItens = _transactionContext.SaveChanges();
-                if (transactions.Count() == savedItens) throw new InvalidOperationException("Not all itens were saved");
-                return true;
+                int savedItems = _transactionContext.SaveChanges();
+                if (transactions.Count() != savedItems) throw new InvalidOperationException("Not all items were saved");
+                transaction.Commit();
+                return savedItems;
             }
             catch (Exception e)
             {
-                _logger.LogError($"An error inserting transactions ocurred: {e.Message}");
-                return false;
+                _logger.LogError($"An error ocurred when inserting transactions : {e.Message}");
+                transaction.Rollback();
+                return 0;
             }
-
         }
     }
 }

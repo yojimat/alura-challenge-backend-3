@@ -4,5 +4,6 @@
     {
         string ReadFileNameAndLength();
         IEnumerable<Transaction> ReadCSVFile();
+        void SetResultMessage(int savedItems, int originalLengthOfList);
     }
 }
