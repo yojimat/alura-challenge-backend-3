@@ -2,9 +2,5 @@
 {
     public interface ITransaction
     {
-        static Transaction CreateTransactionByCsvLine(string line)
-        {
-            return new Transaction();
-        }
     }
 }

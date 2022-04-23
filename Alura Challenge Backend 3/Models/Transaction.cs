@@ -18,7 +18,7 @@ namespace Alura_Challenge_Backend_3.Models
         public int DestinationAgency { get; set; }
         public string DestinationAccount { get; set; } = string.Empty;
 
-        public float Value { get; set; }
+        public double Value { get; set; }
         public DateTime DateTime { get; set; }
 
 
@@ -35,7 +35,7 @@ namespace Alura_Challenge_Backend_3.Models
                 DestinationAgency = int.Parse(arrayProp[4]),
                 DestinationAccount = arrayProp[5],
 
-                Value = float.Parse(arrayProp[6]),
+                Value = double.Parse(arrayProp[6].Replace(".", ","), NumberStyles.Currency),
                 DateTime = DateTime.ParseExact(arrayProp[7], dateStringFormat, CultureInfo.InvariantCulture)
             };
         }

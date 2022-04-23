@@ -1,12 +1,12 @@
 using Alura_Challenge_Backend_3.Models;
+using Alura_Challenge_Backend_3.Models.EqualityComparers;
+using Alura_Challenge_Backend_3_Test.ModelStubs;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
-using Alura_Challenge_Backend_3_Test.ModelStubs;
-using System;
-using Microsoft.AspNetCore.Http;
-using System.IO;
-using Moq;
 
 namespace Alura_Challenge_Backend_3_Test
 {
@@ -31,8 +31,7 @@ namespace Alura_Challenge_Backend_3_Test
             IEnumerable<Transaction> list = fileUpload.ReadCSVFile();
 
             Assert.NotNull(list);
-            // Verify if is necessary to implement the an EqualityComparer in the Transaction object.
-            Assert.True(list.SequenceEqual(TransactionStubs.TransactionsListStub));
+            Assert.True(list.SequenceEqual(TransactionStubs.TransactionsListStub, new TransactionEqualityComparer()));
         }
 
         [Fact]

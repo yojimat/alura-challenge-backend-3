@@ -20,7 +20,7 @@ namespace Alura_Challenge_Backend_3.Data
         {
             try
             {
-                _transactionContext.Transactions.AddRange(transactions);
+                _transactionContext.Transactions?.AddRange(transactions);
                 int savedItens = _transactionContext.SaveChanges();
                 if (transactions.Count() == savedItens) throw new InvalidOperationException("Not all itens were saved");
                 return true;

@@ -1,6 +1,4 @@
-﻿using Alura_Challenge_Backend_3.Models;
-
-namespace Alura_Challenge_Backend_3.Models.Interfaces
+﻿namespace Alura_Challenge_Backend_3.Models.Interfaces
 {
     public interface IFileUpload
     {
