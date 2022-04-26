@@ -9,52 +9,51 @@ using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace Alura_Challenge_Backend_3_Test
+namespace Alura_Challenge_Backend_3_Test;
+
+public class FileUploadTest
 {
-    public class FileUploadTest
+    [Fact]
+    public void Should_Return_A_List_Of_Transactions()
     {
-        [Fact]
-        public void Should_Return_A_List_Of_Transactions()
+        FileUploadViewModel fileUpload = new();
+        string fileName = "transacoes-2022-01-01.csv";
+        var formFile = TestHelpers.GetFormFileFromStub(fileName);
+
+        fileUpload.FormFile = formFile;
+
+        IEnumerable<Transaction> list = fileUpload.ReadCSVFile();
+
+        Assert.NotNull(list);
+        Assert.True(list.SequenceEqual(TransactionStubs.TransactionsListStub, new TransactionEqualityComparer()));
+    }
+
+    [Fact]
+    public void Should_Return_Empty_List_When_No_File_Is_Send()
+    {
+        FileUploadViewModel fileUpload = new();
+
+        IEnumerable<Transaction> list = fileUpload.ReadCSVFile();
+
+        Assert.NotNull(list);
+        Assert.Empty(list);
+    }
+
+    [Fact]
+    public void Should_Ignore_Wrong_Files_Format()
+    {
+        FileUploadViewModel fileUpload = new();
+        FormFile formFile = new(Stream.Null, 0, 0, "FormFile", "Wrong Format File")
         {
-            FileUpload fileUpload = new();
-            string fileName = "transacoes-2022-01-01.csv";
-            var formFile = TestHelpers.GetFormFileFromStub(fileName);
+            Headers = new HeaderDictionary(),
+            ContentType = "some wrong format"
+        };
 
-            fileUpload.FormFile = formFile;
+        fileUpload.FormFile = formFile;
 
-            IEnumerable<Transaction> list = fileUpload.ReadCSVFile();
+        IEnumerable<Transaction> list = fileUpload.ReadCSVFile();
 
-            Assert.NotNull(list);
-            Assert.True(list.SequenceEqual(TransactionStubs.TransactionsListStub, new TransactionEqualityComparer()));
-        }
-
-        [Fact]
-        public void Should_Return_Empty_List_When_No_File_Is_Send()
-        {
-            FileUpload fileUpload = new();
-
-            IEnumerable<Transaction> list = fileUpload.ReadCSVFile();
-
-            Assert.NotNull(list);
-            Assert.Empty(list);
-        }
-
-        [Fact]
-        public void Should_Ignore_Wrong_Files_Format()
-        {
-            FileUpload fileUpload = new();
-            FormFile formFile = new(Stream.Null, 0, 0, "FormFile", "Wrong Format File")
-            {
-                Headers = new HeaderDictionary(),
-                ContentType = "some wrong format"
-            };
-
-            fileUpload.FormFile = formFile;
-
-            IEnumerable<Transaction> list = fileUpload.ReadCSVFile();
-
-            Assert.NotNull(list);
-            Assert.Empty(list);
-        }
+        Assert.NotNull(list);
+        Assert.Empty(list);
     }
 }

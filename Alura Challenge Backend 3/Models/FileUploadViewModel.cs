@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Alura_Challenge_Backend_3.Models
 {
-    public class FileUpload : IFileUpload
+    public class FileUploadViewModel : IFileUpload
     {
         private int invalidItens = 0;
 
@@ -52,7 +52,7 @@ namespace Alura_Challenge_Backend_3.Models
         }
 
         public void SetListForImportedTransactionTables(IEnumerable<Transaction> listOfTransactions) =>
-            ListForImportedTransactionsTable = 
+            ListForImportedTransactionsTable =
                 listOfTransactions.Select(transaction => (transaction.DateTime, transaction.ImportedDateTime)).OrderByDescending(a => a.DateTime);
 
         // In the case that the prop ResultMessage get more complex.

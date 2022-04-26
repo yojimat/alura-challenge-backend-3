@@ -11,31 +11,31 @@ using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace Alura_Challenge_Backend_3_Test
+namespace Alura_Challenge_Backend_3_Test;
+
+public class TransactionsValidationTest
 {
-    public class TransactionsValidationTest
+    private const string dateStringFormat = "yyyy-MM-ddTHH:mm:ss";
+
+    [Fact]
+    public void Must_Validate_The_Example_File_Correctly()
     {
-        private const string dateStringFormat = "yyyy-MM-ddTHH:mm:ss";
+        var date = DateTime.ParseExact("2022-01-01T07:30:00", dateStringFormat, CultureInfo.InvariantCulture);
+        Mock<ITransactionService> mockTransactionService = new();
+        mockTransactionService.Setup(x => x.VerifyIfTransactionExistByDate(It.Is<DateTime>(d => d == date))).Returns(false);
+        TransactionsValidation transactionsValidation = new(mockTransactionService.Object);
 
-        [Fact]
-        public void Must_Validate_The_Example_File_Correctly()
-        {
-            var date = DateTime.ParseExact("2022-01-01T07:30:00", dateStringFormat, CultureInfo.InvariantCulture);
-            Mock<ITransactionService> mockTransactionService = new();
-            mockTransactionService.Setup(x => x.VerifyIfTransactionExistByDate(It.Is<DateTime>(d => d == date))).Returns(false);
-            TransactionsValidation transactionsValidation = new(mockTransactionService.Object);
+        FileUploadViewModel fileUpload = new();
+        string fileName = "exemplo.csv";
+        var formFile = TestHelpers.GetFormFileFromStub(fileName);
 
-            FileUpload fileUpload = new();
-            string fileName = "exemplo.csv";
-            var formFile = TestHelpers.GetFormFileFromStub(fileName);
+        fileUpload.FormFile = formFile;
 
-            fileUpload.FormFile = formFile;
+        IEnumerable<Transaction> list = fileUpload.ReadCSVFile();
 
-            IEnumerable<Transaction> list = fileUpload.ReadCSVFile();
+        var validatedList = transactionsValidation.Validate(list);
 
-            var validatedList = transactionsValidation.Validate(list);
-
-            Assert.Equal(6, validatedList.Count());
-        }
+        Assert.Equal(6, validatedList.Count());
     }
 }
+

@@ -1,22 +1,14 @@
+using Alura_Challenge_Backend_3.Configurations;
 using Alura_Challenge_Backend_3.Contexts;
 using Alura_Challenge_Backend_3.Helpers;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+builder.Services.AddIdentityConfiguration();
 
-builder.Services.AddAuthorization(options =>
-{
-    options.FallbackPolicy = options.DefaultPolicy;
-});
 builder.Services.AddControllersWithViews(options =>
 {
     var policy = new AuthorizationPolicyBuilder()
@@ -25,13 +17,12 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new AuthorizeFilter(policy));
 });
 
-builder.Services.AddRazorPages()
-    .AddMicrosoftIdentityUI();
-
 builder.Services.AddDbContext<TransactionContext>(options =>
   options.UseSqlServer(builder.Configuration["SQLServerExpressLocal"]));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -54,8 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseIdentityConfiguration();
 
 app.MapControllerRoute(
     name: "default",
