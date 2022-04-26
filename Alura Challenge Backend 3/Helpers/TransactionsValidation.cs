@@ -9,10 +9,7 @@ namespace Alura_Challenge_Backend_3.Helpers
     {
         private readonly ITransactionService _transactionService;
 
-        public TransactionsValidation(ITransactionService transactionService)
-        {
-            _transactionService = transactionService;
-        }
+        public TransactionsValidation(ITransactionService transactionService) => _transactionService = transactionService;
 
         public IEnumerable<Transaction> Validate(IEnumerable<Transaction> transactions)
         {
@@ -39,15 +36,11 @@ namespace Alura_Challenge_Backend_3.Helpers
             !string.IsNullOrWhiteSpace(transaction.DestinationAccount) &&
             transaction.Value > 0);
 
-        private static IEnumerable<Transaction> FilterTransactionsByDate(IEnumerable<Transaction> transactions, DateTime dateOfTransaction)
-        {
-            return transactions.Where(transaction => transaction.DateTime.Date.CompareTo(dateOfTransaction.Date) == 0);
-        }
+        private static IEnumerable<Transaction> FilterTransactionsByDate(IEnumerable<Transaction> transactions, DateTime dateOfTransaction) =>
+            transactions.Where(transaction => transaction.DateTime.Date.CompareTo(dateOfTransaction.Date) == 0);
 
-        private bool VerifyIfDateOfTransactionsAlreadyExists(DateTime dateOfTransaction)
-        {
-            return _transactionService.VerifyIfTransactionExistByDate(dateOfTransaction);
-        }
+        private bool VerifyIfDateOfTransactionsAlreadyExists(DateTime dateOfTransaction) =>
+            _transactionService.VerifyIfTransactionExistByDate(dateOfTransaction);
 
         private static DateTime GetDateOfFirstValidTransaction(IEnumerable<Transaction> transactions)
         {

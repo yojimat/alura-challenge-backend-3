@@ -1,5 +1,6 @@
 using Alura_Challenge_Backend_3.Models;
 using Alura_Challenge_Backend_3.Models.EqualityComparers;
+using Alura_Challenge_Backend_3_Test.Helpers;
 using Alura_Challenge_Backend_3_Test.ModelStubs;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -15,16 +16,9 @@ namespace Alura_Challenge_Backend_3_Test
         [Fact]
         public void Should_Return_A_List_Of_Transactions()
         {
-            string? path = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.FullName;
-            string fileName = "transacoes-2022-01-01.csv";
             FileUpload fileUpload = new();
-
-            using Stream fileStream = new MemoryStream(File.ReadAllBytes(@$"{path}\StubFiles\{fileName}"));
-            FormFile formFile = new(fileStream, 0, fileStream.Length, "FormFile", fileName)
-            {
-                Headers = new HeaderDictionary(),
-                ContentType = "text/csv"
-            };
+            string fileName = "transacoes-2022-01-01.csv";
+            var formFile = TestHelpers.GetFormFileFromStub(fileName);
 
             fileUpload.FormFile = formFile;
 
