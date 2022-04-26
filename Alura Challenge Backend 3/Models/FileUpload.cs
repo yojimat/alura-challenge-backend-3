@@ -62,7 +62,7 @@ namespace Alura_Challenge_Backend_3.Models
             if (savedItems > 0)
             {
                 ResultMessage = $"{savedItems} item(s) válido(s).";
-                if (originalListLength > savedItems) ResultMessage += $"{originalListLength - savedItems + invalidItens} item(s) inválido(s).";
+                if (originalListLength > savedItems) ResultMessage += $" {originalListLength - savedItems + invalidItens} item(s) inválido(s).";
             }
             else
             {

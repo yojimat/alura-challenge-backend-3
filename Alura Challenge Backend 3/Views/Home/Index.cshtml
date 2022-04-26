@@ -28,6 +28,36 @@
     }
 </div>
 
+@if (Model != null && Model.ListForImportedTransactionsTable.Any())
+{
+    <div class="text-center">
+        <h2 class="display-5">Importações realizadas</h2>
+
+        <table class="table table-hover table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">DATA TRANSAÇÕES</th>
+                    <th scope="col">DATA IMPORTAÇÃO</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model.ListForImportedTransactionsTable)
+            {
+                <tbody>
+                    <tr>
+                        <td scope="row">
+                            @item.Item1.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.Item2
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+}
+
+
 @section Scripts {
 <partial name="_ValidationScriptsPartial" />
 }
