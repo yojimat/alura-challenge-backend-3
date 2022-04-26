@@ -21,6 +21,7 @@ namespace Alura_Challenge_Backend_3.Models
 
         public double Value { get; set; }
         public DateTime DateTime { get; set; }
+        public DateTime ImportedDateTime { get; set; }
 
 
         public static Transaction CreateTransactionByCsvLine(string line)

@@ -1,6 +1,7 @@
 ﻿using Alura_Challenge_Backend_3.Contexts;
 using Alura_Challenge_Backend_3.Data.Interfaces;
 using Alura_Challenge_Backend_3.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Alura_Challenge_Backend_3.Data
 {
@@ -28,7 +29,7 @@ namespace Alura_Challenge_Backend_3.Data
             }
             catch (Exception e)
             {
-                _logger.LogError($"An error ocurred when inserting transactions : {e.Message}");
+                _logger.LogError("An error ocurred when inserting transactions : {message}", e.Message);
                 transaction.Rollback();
                 return 0;
             }
@@ -38,6 +39,12 @@ namespace Alura_Challenge_Backend_3.Data
         {
             bool? found = _transactionContext.Transactions?.Any(t => t.DateTime.CompareTo(dateOfTransaction) == 0);
             return found is not null && found.Value;
+        }
+
+        IEnumerable<Transaction> ITransactionService.GetTransactions()
+        {
+            var listOfTransactions = _transactionContext.Transactions?.AsNoTracking().Select(s => s);
+            return listOfTransactions is null ? Enumerable.Empty<Transaction>() : listOfTransactions;
         }
     }
 }

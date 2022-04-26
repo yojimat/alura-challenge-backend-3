@@ -51,6 +51,9 @@ namespace Alura_Challenge_Backend_3.Controllers
                 }
             }
 
+            var listOfTransactions = _transactionService.GetTransactions();
+            fileUpload.SetListForImportedTransactionTables(listOfTransactions);
+
             return View(nameof(Index), fileUpload);
         }
 

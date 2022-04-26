@@ -6,11 +6,12 @@ namespace Alura_Challenge_Backend_3.Models
 {
     public class FileUpload : IFileUpload
     {
-        private string resultMessage = string.Empty;
+        private int invalidItens = 0;
 
         [Required(ErrorMessage = "Nenhum arquivo foi selecionado")]
         public IFormFile? FormFile { get; set; }
-        public string ResultMessage { get => resultMessage; }
+        public string ResultMessage { get; private set; } = string.Empty;
+        public IEnumerable<(DateTime, DateTime)> ListForImportedTransactionsTable { get; private set; } = Enumerable.Empty<(DateTime, DateTime)>();
 
         public string ReadFileNameAndLength()
         {
@@ -42,7 +43,7 @@ namespace Alura_Challenge_Backend_3.Models
                 }
                 catch (Exception e) when (e is ArgumentNullException || e is FormatException)
                 {
-                    // Add prop to counter the lines that were not converted.
+                    invalidItens += 1;
                 }
                 line = reader.ReadLine();
             }
@@ -50,21 +51,25 @@ namespace Alura_Challenge_Backend_3.Models
             return transactions;
         }
 
+        public void SetListForImportedTransactionTables(IEnumerable<Transaction> listOfTransactions) =>
+            ListForImportedTransactionsTable = 
+                listOfTransactions.Select(transaction => (transaction.DateTime, transaction.ImportedDateTime)).OrderByDescending(a => a.DateTime);
+
         // In the case that the prop ResultMessage get more complex.
         // This ResultMessage prop could be a new class responsible to define output messages. Removing these if's and making more managable to deal with.
         public void SetResultMessage(int savedItems, int originalListLength)
         {
             if (savedItems > 0)
             {
-                resultMessage = $"{savedItems} item(s) da lista foram salvos.";
-                if (originalListLength > savedItems) resultMessage += $"{originalListLength - savedItems} item(s) não foi(ram) salvo(s).";
+                ResultMessage = $"{savedItems} item(s) válido(s).";
+                if (originalListLength > savedItems) ResultMessage += $"{originalListLength - savedItems + invalidItens} item(s) inválido(s).";
             }
             else
             {
-                resultMessage = "Nenhum item foi salvo. Verifique a lista enviada.";
+                ResultMessage = "Nenhum item foi salvo. Verifique a lista enviada.";
             };
         }
 
-        public void SetResultMessage(string message) => resultMessage = message;
+        public void SetResultMessage(string message) => ResultMessage = message;
     }
 }

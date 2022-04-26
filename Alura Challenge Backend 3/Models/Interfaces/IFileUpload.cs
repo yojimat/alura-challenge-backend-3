@@ -6,5 +6,6 @@
         IEnumerable<Transaction> ReadCSVFile();
         void SetResultMessage(int savedItems, int originalListLength);
         void SetResultMessage(string message);
+        void SetListForImportedTransactionTables(IEnumerable<Transaction> listOfTransactions);
     }
 }
