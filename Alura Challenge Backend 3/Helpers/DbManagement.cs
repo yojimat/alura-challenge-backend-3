@@ -10,9 +10,9 @@ namespace Alura_Challenge_Backend_3.Helpers
             var services = scope.ServiceProvider;
 
             var context = services.GetRequiredService<TransactionContext>();
-
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
+            // TODO: Populate ApplicationContext with the default user
             // DbInitializer.Initialize(context);
         }
     }

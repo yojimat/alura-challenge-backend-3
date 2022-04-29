@@ -1,13 +1,12 @@
 using Alura_Challenge_Backend_3.Configurations;
 using Alura_Challenge_Backend_3.Contexts;
+using Alura_Challenge_Backend_3.Data.Contexts;
 using Alura_Challenge_Backend_3.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddIdentityConfiguration();
 
 builder.Services.AddControllersWithViews(options =>
 {
@@ -20,9 +19,12 @@ builder.Services.AddControllersWithViews(options =>
 builder.Services.AddDbContext<TransactionContext>(options =>
   options.UseSqlServer(builder.Configuration["SQLServerExpressLocal"]));
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+  options.UseSqlServer(builder.Configuration["SQLServerExpressLocal"]));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddHealthChecks();
+builder.Services.AddIdentityConfiguration();
 
 var app = builder.Build();
 
@@ -50,6 +52,5 @@ app.UseIdentityConfiguration();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
 app.MapControllers();
 app.Run();
