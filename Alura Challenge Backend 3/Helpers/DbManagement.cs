@@ -1,4 +1,5 @@
 ﻿using Alura_Challenge_Backend_3.Contexts;
+using Alura_Challenge_Backend_3.Data.Contexts;
 
 namespace Alura_Challenge_Backend_3.Helpers
 {
@@ -9,9 +10,14 @@ namespace Alura_Challenge_Backend_3.Helpers
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
 
-            var context = services.GetRequiredService<TransactionContext>();
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+            var transactionContext = services.GetRequiredService<TransactionContext>();
+            transactionContext.Database.EnsureDeleted();
+            transactionContext.Database.EnsureCreated();
+
+            var appContext = services.GetRequiredService<ApplicationDbContext>();
+            appContext.Database.EnsureDeleted();
+            appContext.Database.EnsureCreated();
+
             // TODO: Populate ApplicationContext with the default user
             // DbInitializer.Initialize(context);
         }
