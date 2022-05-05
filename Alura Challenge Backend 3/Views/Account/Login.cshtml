@@ -4,7 +4,7 @@
 }
 
 <div style="max-width: 500px; margin: 0 auto; min-height: inherit">
-    <form asp-action="Login" enctype="application/x-www-form-urlencoded" method="post" class="d-flex flex-column">
+    <form asp-action="Login" enctype="application/x-www-form-urlencoded" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="d-flex flex-column">
         <div class="form-group">
             <label asp-for="Email" class="control-label"></label>
             <input asp-for="Email" type="text" class="form-control">

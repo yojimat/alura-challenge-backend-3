@@ -20,7 +20,7 @@ public class AccountController : Controller
     [HttpGet, Route(nameof(Register))]
     public IActionResult Register() => View();
 
-    
+
     [HttpPost, Route(nameof(Register))]
     public async Task<IActionResult> Register(UserRegisterViewModel userRegister)
     {
@@ -47,18 +47,31 @@ public class AccountController : Controller
 
     [AllowAnonymous]
     [HttpGet, Route(nameof(Login))]
-    public IActionResult Login(string? returnUrl = null) => View();
+    public IActionResult Login(string? returnUrl = null)
+    {
+        ViewData["ReturnUrl"] = returnUrl;
+        return View();
+    }
 
     [AllowAnonymous]
     [HttpPost, Route(nameof(Login))]
-    public async Task<IActionResult> Login(UserLoginViewModel userLogin)
+    public async Task<IActionResult> Login(UserLoginViewModel userLogin, string? returnUrl = null)
     {
+        ViewData["ReturnUrl"] = returnUrl;
         if (!ModelState.IsValid) return View(userLogin);
 
-        var result = await _signInManager.PasswordSignInAsync(
-            userLogin.Email, userLogin.Password, false, false);
+        var user = await _userManager.FindByEmailAsync(userLogin.Email);
 
-        if(result.Succeeded) return RedirectToAction("Index", "Home");
+        if (user == null) user = new IdentityUser { Email = "" };
+
+        var result = await _signInManager.PasswordSignInAsync(
+            user.UserName, userLogin.Password, false, false);
+
+        if (result.Succeeded)
+        {
+            if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Catalog");
+            return LocalRedirect(returnUrl);
+        }
 
         // TODO: There could a new error warning the user about an account nonexistent.
         userLogin.SetError("E-mail ou senha incorreta.");

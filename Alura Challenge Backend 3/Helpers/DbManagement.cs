@@ -1,11 +1,12 @@
 ﻿using Alura_Challenge_Backend_3.Contexts;
 using Alura_Challenge_Backend_3.Data.Contexts;
+using Microsoft.AspNetCore.Identity;
 
 namespace Alura_Challenge_Backend_3.Helpers
 {
     public static class DbManagement
     {
-        public static void CleanDatabaseForTest(WebApplication app)
+        public static async void CleanDatabaseForTest(WebApplication app)
         {
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
@@ -16,10 +17,24 @@ namespace Alura_Challenge_Backend_3.Helpers
 
             var appContext = services.GetRequiredService<ApplicationDbContext>();
             appContext.Database.EnsureDeleted();
-            appContext.Database.EnsureCreated();
+            bool wasCreated = await appContext.Database.EnsureCreatedAsync();
 
-            // TODO: Populate ApplicationContext with the default user
-            // DbInitializer.Initialize(context);
+            if (!wasCreated) throw new Exception("Db was not deleted");
+
+            UserManager<IdentityUser> userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+            var user = new IdentityUser
+            {
+                UserName = "admin",
+                Email = "admin@email.com.br",
+                EmailConfirmed = true
+            };
+
+            string passwordGenerated = "123999";
+
+            var result = await userManager.CreateAsync(user, passwordGenerated);
+
+            if (!result.Succeeded) throw new Exception("Admin user was not created.");
         }
     }
 }
