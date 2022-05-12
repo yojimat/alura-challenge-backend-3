@@ -69,7 +69,7 @@ public class AccountController : Controller
 
         if (result.Succeeded)
         {
-            if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Catalog");
+            if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Home");
             return LocalRedirect(returnUrl);
         }
 
