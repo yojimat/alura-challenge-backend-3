@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Alura_Challenge_Backend_3.Models;
+namespace Alura_Challenge_Backend_3.Models.Account;
 
 public class UserLoginViewModel
 {

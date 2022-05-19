@@ -2,12 +2,10 @@
 using Alura_Challenge_Backend_3.Helpers;
 using Alura_Challenge_Backend_3.Models;
 using Alura_Challenge_Backend_3_Test.Helpers;
-using Microsoft.AspNetCore.Http;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Xunit;
 

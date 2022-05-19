@@ -24,7 +24,10 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        FileUploadViewModel fileUpload = new();
+        var listOfTransactions = _transactionService.GetTransactions();
+        fileUpload.SetListForImportedTransactionTables(listOfTransactions);
+        return View(nameof(Index), fileUpload);
     }
 
     [HttpPost, Route(nameof(UploadFile))]

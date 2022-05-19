@@ -41,7 +41,7 @@ namespace Alura_Challenge_Backend_3.Data
             return found is not null && found.Value;
         }
 
-        IEnumerable<Transaction> ITransactionService.GetTransactions()
+        public IEnumerable<Transaction> GetTransactions()
         {
             var listOfTransactions = _transactionContext.Transactions?.AsNoTracking().Select(s => s);
             return listOfTransactions is null ? Enumerable.Empty<Transaction>() : listOfTransactions;

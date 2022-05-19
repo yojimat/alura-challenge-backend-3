@@ -1,4 +1,4 @@
-﻿using Alura_Challenge_Backend_3.Models;
+﻿using Alura_Challenge_Backend_3.Models.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
