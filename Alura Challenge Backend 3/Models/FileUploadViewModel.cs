@@ -53,7 +53,8 @@ namespace Alura_Challenge_Backend_3.Models
 
         public void SetListForImportedTransactionTables(IEnumerable<Transaction> listOfTransactions) =>
             ListForImportedTransactionsTable =
-                listOfTransactions.Select(transaction => (transaction.DateTime, transaction.ImportedDateTime)).OrderByDescending(a => a.DateTime);
+                listOfTransactions.OrderByDescending(a => a.DateTime).GroupBy(i => i.ImportedDateTime)
+                                  .Select(group => (group.First().DateTime, group.Key));
 
         // In the case that the prop ResultMessage get more complex.
         // This ResultMessage prop could be a new class responsible to define output messages. Removing these if's and making more managable to deal with.

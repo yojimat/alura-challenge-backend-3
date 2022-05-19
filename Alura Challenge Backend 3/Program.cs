@@ -20,7 +20,7 @@ builder.Services.AddDbContext<TransactionContext>(options =>
   options.UseSqlServer(builder.Configuration["SQLServerExpressLocal"]));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-  options.UseSqlServer(builder.Configuration["SQLServerExpressLocal"]));
+  options.UseSqlServer(builder.Configuration["SQLServerExpressLocalIdentity"]));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

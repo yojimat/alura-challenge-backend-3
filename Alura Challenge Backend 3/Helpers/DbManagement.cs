@@ -17,9 +17,7 @@ namespace Alura_Challenge_Backend_3.Helpers
 
             var appContext = services.GetRequiredService<ApplicationDbContext>();
             appContext.Database.EnsureDeleted();
-            bool wasCreated = await appContext.Database.EnsureCreatedAsync();
-
-            if (!wasCreated) throw new Exception("Db was not deleted");
+            appContext.Database.EnsureCreated();
 
             UserManager<IdentityUser> userManager = services.GetRequiredService<UserManager<IdentityUser>>();
 
