@@ -1,6 +1,6 @@
 ﻿using Alura_Challenge_Backend_3.Data.Contexts;
 using Alura_Challenge_Backend_3.Data.Interfaces;
-using Microsoft.AspNetCore.Identity;
+using Alura_Challenge_Backend_3.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Alura_Challenge_Backend_3.Data
@@ -16,10 +16,10 @@ namespace Alura_Challenge_Backend_3.Data
             _logger = logger;
         }
 
-        public IEnumerable<IdentityUser> GetUsers()
+        public IEnumerable<ApplicationUser> GetUsers()
         {
             var usersList = _appContext.Users.AsNoTracking().Select(s => s);
-            return usersList is null ? Enumerable.Empty<IdentityUser>() : usersList;
+            return usersList is null ? Enumerable.Empty<ApplicationUser>() : usersList;
         }
     }
 }

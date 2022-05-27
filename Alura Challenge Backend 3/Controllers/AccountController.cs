@@ -1,4 +1,5 @@
-﻿using Alura_Challenge_Backend_3.Models.Account;
+﻿using Alura_Challenge_Backend_3.Models;
+using Alura_Challenge_Backend_3.Models.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +9,10 @@ namespace Alura_Challenge_Backend_3.Controllers;
 [Route("Account"), Authorize]
 public class AccountController : Controller
 {
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
     {
         _signInManager = signInManager;
         _userManager = userManager;
@@ -26,7 +27,7 @@ public class AccountController : Controller
     {
         if (!ModelState.IsValid) return View(userRegister);
 
-        var user = new IdentityUser
+        var user = new ApplicationUser
         {
             UserName = userRegister.UserName,
             Email = userRegister.Email,
@@ -62,7 +63,7 @@ public class AccountController : Controller
 
         var user = await _userManager.FindByEmailAsync(userLogin.Email);
 
-        if (user == null) user = new IdentityUser { Email = "" };
+        if (user == null) user = new ApplicationUser { Email = "" };
 
         var result = await _signInManager.PasswordSignInAsync(
             user.UserName, userLogin.Password, false, false);
@@ -73,7 +74,6 @@ public class AccountController : Controller
             return LocalRedirect(returnUrl);
         }
 
-        // TODO: There could a new error warning the user about an account nonexistent.
         userLogin.SetError("E-mail ou senha incorreta.");
 
         return View(userLogin);

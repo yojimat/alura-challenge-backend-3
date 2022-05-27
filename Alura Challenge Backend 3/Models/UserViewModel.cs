@@ -4,9 +4,8 @@ namespace Alura_Challenge_Backend_3.Models;
 
 public class UserViewModel
 {
-    // TODO: Should implement in IdentityUser some registry date time to sort correctly the list.
-    public IEnumerable<IdentityUser> UserList { get; private set; } = new List<IdentityUser>();
+    public IEnumerable<ApplicationUser> UserList { get; private set; } = new List<ApplicationUser>();
 
-    internal void SetUserList(IEnumerable<IdentityUser> users) => UserList = users;
+    internal void SetUserList(IEnumerable<ApplicationUser> users) => UserList = users.OrderByDescending(u => u.RegisterId);
 }
 

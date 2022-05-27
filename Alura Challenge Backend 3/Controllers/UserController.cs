@@ -11,11 +11,11 @@ namespace Alura_Challenge_Backend_3.Controllers;
 [Authorize]
 public class UserController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUserService _userService;
     private readonly ILogger<UserController> _logger;
 
-    public UserController(UserManager<IdentityUser> userManager, ApplicationDbContext context, ILogger<UserController> logger)
+    public UserController(UserManager<ApplicationUser> userManager, ApplicationDbContext context, ILogger<UserController> logger)
     {
         _userManager = userManager;
         _userService= new UserService(context, logger);

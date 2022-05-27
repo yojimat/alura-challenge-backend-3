@@ -1,5 +1,6 @@
 ﻿using Alura_Challenge_Backend_3.Contexts;
 using Alura_Challenge_Backend_3.Data.Contexts;
+using Alura_Challenge_Backend_3.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace Alura_Challenge_Backend_3.Helpers
@@ -19,9 +20,9 @@ namespace Alura_Challenge_Backend_3.Helpers
             appContext.Database.EnsureDeleted();
             appContext.Database.EnsureCreated();
 
-            UserManager<IdentityUser> userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+            UserManager<ApplicationUser> userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-            var user = new IdentityUser
+            ApplicationUser user = new()
             {
                 UserName = "admin",
                 Email = "admin@email.com.br",

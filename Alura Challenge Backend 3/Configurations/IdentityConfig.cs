@@ -1,4 +1,5 @@
 ﻿using Alura_Challenge_Backend_3.Data.Contexts;
+using Alura_Challenge_Backend_3.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace Alura_Challenge_Backend_3.Configurations;
@@ -7,7 +8,7 @@ public static class IdentityConfig
 {
     public static void AddIdentityConfiguration(this IServiceCollection services)
     {
-        services.AddIdentity<IdentityUser, IdentityRole>(o =>
+        services.AddIdentity<ApplicationUser, IdentityRole>(o =>
         {
             o.Password.RequireDigit = true;
             o.Password.RequiredLength = 6;
