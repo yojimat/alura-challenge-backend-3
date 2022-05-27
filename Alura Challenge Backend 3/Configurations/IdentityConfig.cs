@@ -10,6 +10,7 @@ public static class IdentityConfig
     {
         services.AddIdentity<ApplicationUser, IdentityRole>(o =>
         {
+            o.User.RequireUniqueEmail = true;
             o.Password.RequireDigit = true;
             o.Password.RequiredLength = 6;
             o.Password.RequireNonAlphanumeric = false;

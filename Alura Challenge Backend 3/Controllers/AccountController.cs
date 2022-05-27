@@ -18,34 +18,6 @@ public class AccountController : Controller
         _userManager = userManager;
     }
 
-    [HttpGet, Route(nameof(Register))]
-    public IActionResult Register() => View();
-
-
-    [HttpPost, Route(nameof(Register))]
-    public async Task<IActionResult> Register(UserRegisterViewModel userRegister)
-    {
-        if (!ModelState.IsValid) return View(userRegister);
-
-        var user = new ApplicationUser
-        {
-            UserName = userRegister.UserName,
-            Email = userRegister.Email,
-            EmailConfirmed = true
-        };
-
-        string passwordGenerated = "some_rubish";
-
-        var result = await _userManager.CreateAsync(user, passwordGenerated);
-
-        if (result.Succeeded)
-            return RedirectToAction("Index", "Home");
-
-        userRegister.SetErrors(result.Errors);
-
-        return View(userRegister);
-    }
-
     [AllowAnonymous]
     [HttpGet, Route(nameof(Login))]
     public IActionResult Login(string? returnUrl = null)

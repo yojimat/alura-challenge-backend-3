@@ -7,5 +7,6 @@ namespace Alura_Challenge_Backend_3.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RegisterId { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }
