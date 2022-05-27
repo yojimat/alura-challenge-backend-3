@@ -22,11 +22,12 @@ public class UserController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         UserViewModel userView = new();
         var users = _userService.GetUsers();
-        userView.SetUserList(users);
+        var loggedUser = await _userManager.FindByNameAsync(User.Identity?.Name);
+        userView.SetUserList(users, loggedUser.RegisterId);
         return View(nameof(Index), userView);
     }
 }
