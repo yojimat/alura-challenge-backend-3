@@ -34,7 +34,24 @@
                             <a class="btn btn-info" asp-action="Edit" asp-route-userId="@item.Id">Editar</a>
                             @if (@item.UserName != User.Identity?.Name)
                             {
-                                <button class="btn btn-danger">Remover</button>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalRemover@(item.Id)">Remover</button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="modalRemover@(item.Id)" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Usuário @item.Name</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                Tem certeza que deseja remover @item.Name?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <a onclick="disableBtn(this)" class="btn btn-danger" asp-action="Remove" asp-route-userId="@item.Id">Remover</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             }
                         </td>
                     </tr>
@@ -49,3 +66,5 @@
         </div>
     }
 </div>
+
+

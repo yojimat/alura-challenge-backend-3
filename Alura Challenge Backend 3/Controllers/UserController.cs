@@ -91,7 +91,8 @@ public class UserController : Controller
         {
             Console.WriteLine(e);
             await _userManager.DeleteAsync(newAppUser);
-            newUser.Error = "Não foi possível finalizar seu cadastro, tente novamente mais tarde.";
+            newUser.Error = @"Não foi possível finalizar seu cadastro, tente novamente mais tarde ou 
+                            verifique se o e-mail digitado está correto.\n";
             return View(newUser);
         }
 
@@ -127,6 +128,18 @@ public class UserController : Controller
             Console.WriteLine("Do something");
         }
 
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Remove(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        var result = await _userManager.DeleteAsync(user);
+        if (!result.Succeeded)
+        {
+            Console.WriteLine("Do something");
+        }
         return RedirectToAction(nameof(Index));
     }
 }
