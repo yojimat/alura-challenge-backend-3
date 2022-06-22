@@ -24,6 +24,7 @@ namespace Alura_Challenge_Backend_3.Helpers
 
             ApplicationUser user = new()
             {
+                Name = "admin",
                 UserName = "admin",
                 Email = "admin@email.com.br",
                 EmailConfirmed = true

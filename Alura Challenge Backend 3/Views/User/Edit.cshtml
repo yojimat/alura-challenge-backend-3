@@ -1,21 +1,17 @@
-﻿@model RegisterUserViewModel;
+﻿@model EditUserViewModel;
 @{
-    ViewData["Title"] = "Registrar Usuário";
+    ViewData["Title"] = "Editar Usuário";
 }
-<h1 class="text-center display-4">Cadastrar Usuário</h1>
+<h1 class="text-center display-4">Editar Usuário</h1>
 <div style="max-width: 500px; margin: 0 auto; min-height: inherit">
-    <form asp-action="Register" enctype="application/x-www-form-urlencoded" method="post" class="d-flex flex-column">
-        <div class="form-group">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" type="email" class="form-control">
-            <p><span asp-validation-for="Email" class="text-danger"></span></p>
-        </div>
+    <form asp-action="Edit" enctype="application/x-www-form-urlencoded" method="post" class="d-flex flex-column">
+        <input type="hidden" asp-for="Id" />
         <div class="form-group">
             <label asp-for="Name" class="control-label"></label>
             <input asp-for="Name" type="text" class="form-control">
             <p><span asp-validation-for="Name" class="text-danger"></span></p>
         </div>
-        <button class="btn btn-primary" type="submit" onclick="disableBtn(this)">Cadastrar</button>
+        <button class="btn btn-primary" type="submit" onclick="disableBtn(this)">Atualizar</button>
     </form>
     @if (!string.IsNullOrWhiteSpace(@Model?.Error))
     {

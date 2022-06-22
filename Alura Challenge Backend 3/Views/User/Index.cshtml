@@ -31,8 +31,11 @@
                             @item.Email
                         </td>
                         <td>
-                            <button class="btn btn-info">Editar</button>
-                            <button class="btn btn-danger">Remover</button>
+                            <a class="btn btn-info" asp-action="Edit" asp-route-userId="@item.Id">Editar</a>
+                            @if (@item.UserName != User.Identity?.Name)
+                            {
+                                <button class="btn btn-danger">Remover</button>
+                            }
                         </td>
                     </tr>
                 </tbody>
