@@ -38,6 +38,7 @@
                 <tr>
                     <th scope="col">DATA TRANSAÇÕES</th>
                     <th scope="col">DATA IMPORTAÇÃO</th>
+                    <th scope="col">USUÁRIO</th>
                 </tr>
             </thead>
             @foreach (var item in Model.ListForImportedTransactionsTable)
@@ -49,6 +50,9 @@
                         </td>
                         <td>
                             @item.Item2
+                        </td>
+                        <td>
+                            @(Model.Users.Single(u => u.RegisterId == item.Item3).Name)
                         </td>
                     </tr>
                 </tbody>

@@ -23,6 +23,7 @@ namespace Alura_Challenge_Backend_3.Models
         public DateTime DateTime { get; set; }
         public DateTime ImportedDateTime { get; set; }
 
+        public int UserId { get; set; }
 
         public static Transaction CreateTransactionByCsvLine(string line)
         {
@@ -40,6 +41,15 @@ namespace Alura_Challenge_Backend_3.Models
                 Value = double.Parse(arrayProp[6].Replace(".", ","), NumberStyles.Currency),
                 DateTime = DateTime.ParseExact(arrayProp[7], dateStringFormat, CultureInfo.InvariantCulture)
             };
+        }
+
+        public static IEnumerable<Transaction> InsertUserId(IEnumerable<Transaction> transactions, int userId)
+        {
+            foreach (Transaction transaction in transactions)
+            {
+                transaction.UserId = userId;
+            }
+            return transactions;
         }
     }
 }

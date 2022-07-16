@@ -125,7 +125,7 @@ public class UserController : Controller
 
         if (!result.Succeeded)
         {
-            Console.WriteLine("Do something");
+            Console.WriteLine("Do something");// TODO: Return an error
         }
 
         return RedirectToAction(nameof(Index));
@@ -138,7 +138,7 @@ public class UserController : Controller
         var result = await _userManager.DeleteAsync(user);
         if (!result.Succeeded)
         {
-            Console.WriteLine("Do something");
+            Console.WriteLine("Do something");// TODO: Return an error
         }
         return RedirectToAction(nameof(Index));
     }

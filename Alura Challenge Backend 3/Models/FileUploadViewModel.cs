@@ -11,7 +11,8 @@ namespace Alura_Challenge_Backend_3.Models
         [Required(ErrorMessage = "Nenhum arquivo foi selecionado")]
         public IFormFile? FormFile { get; set; }
         public string ResultMessage { get; private set; } = string.Empty;
-        public IEnumerable<(DateTime, DateTime)> ListForImportedTransactionsTable { get; private set; } = Enumerable.Empty<(DateTime, DateTime)>();
+        public IEnumerable<(DateTime, DateTime, int)> ListForImportedTransactionsTable { get; private set; } = Enumerable.Empty<(DateTime, DateTime, int)>();
+        public IEnumerable<ApplicationUser> Users { get; private set; } = new List<ApplicationUser>();
 
         public string ReadFileNameAndLength()
         {
@@ -54,7 +55,7 @@ namespace Alura_Challenge_Backend_3.Models
         public void SetListForImportedTransactionTables(IEnumerable<Transaction> listOfTransactions) =>
             ListForImportedTransactionsTable =
                 listOfTransactions.OrderByDescending(a => a.DateTime).GroupBy(i => i.ImportedDateTime)
-                                  .Select(group => (group.First().DateTime, group.Key));
+                                  .Select(group => (group.First().DateTime, group.Key, group.First().UserId));
 
         // In the case that the prop ResultMessage get more complex.
         // This ResultMessage prop could be a new class responsible to define output messages. Removing these if's and making more managable to deal with.
@@ -72,5 +73,7 @@ namespace Alura_Challenge_Backend_3.Models
         }
 
         public void SetResultMessage(string message) => ResultMessage = message;
+
+        public void SetListOfUsersNames(IEnumerable<ApplicationUser> applicationUsers) => Users = applicationUsers;
     }
 }

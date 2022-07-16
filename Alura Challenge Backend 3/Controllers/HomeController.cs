@@ -5,6 +5,7 @@ using Alura_Challenge_Backend_3.Data.Interfaces;
 using Alura_Challenge_Backend_3.Helpers;
 using Alura_Challenge_Backend_3.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,34 +16,38 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly ITransactionService _transactionService;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public HomeController(ILogger<HomeController> logger, TransactionContext context)
+    public HomeController(ILogger<HomeController> logger, TransactionContext context, UserManager<ApplicationUser> userManager)
     {
         _logger = logger;
         _transactionService = new TransactionService(context, logger);
+        _userManager = userManager;
     }
 
     public IActionResult Index()
     {
         FileUploadViewModel fileUpload = new();
-        var listOfTransactions = _transactionService.GetTransactions();
-        fileUpload.SetListForImportedTransactionTables(listOfTransactions);
+        SetFileUploadForTransactionTable(fileUpload);
         return View(nameof(Index), fileUpload);
     }
 
     [HttpPost, Route(nameof(UploadFile))]
-    public IActionResult UploadFile(FileUploadViewModel fileUpload)
+    public async Task<IActionResult> UploadFile(FileUploadViewModel fileUpload)
     {
         if (ModelState.IsValid)
         {
             fileUpload.ReadFileNameAndLength();
             var transactionsList = fileUpload.ReadCSVFile();
             int originalListLength = transactionsList.Count();
+            ApplicationUser loggedUser = await _userManager.GetUserAsync(User);
 
             try
             {
                 var transactionsValidation = new TransactionsValidation(_transactionService);
                 var validatedTransactions = transactionsValidation.Validate(transactionsList);
+
+                Transaction.InsertUserId(validatedTransactions, loggedUser.RegisterId);
 
                 int savedItems = _transactionService.SaveTransactions(validatedTransactions);
                 fileUpload.SetResultMessage(savedItems, originalListLength);
@@ -53,10 +58,16 @@ public class HomeController : Controller
             }
         }
 
-        var listOfTransactions = _transactionService.GetTransactions();
-        fileUpload.SetListForImportedTransactionTables(listOfTransactions);
-
+        SetFileUploadForTransactionTable(fileUpload);
         return View(nameof(Index), fileUpload);
+    }
+
+    private void SetFileUploadForTransactionTable(FileUploadViewModel fileUpload)
+    {
+        var listOfTransactions = _transactionService.GetTransactions();
+        var listOfUsers = _userManager.Users.ToArray();
+        fileUpload.SetListForImportedTransactionTables(listOfTransactions);
+        fileUpload.SetListOfUsersNames(listOfUsers);
     }
 
     [AllowAnonymous]
